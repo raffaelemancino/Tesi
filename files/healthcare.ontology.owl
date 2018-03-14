@@ -1,0 +1,458 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="urn:absolute:cnet2ADbusiness"
+     xml:base="urn:absolute:cnet2ADbusiness"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="urn:absolute:cnet2ADbusiness"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Administrative_staff -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Administrative_staff">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#General_practioner -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#General_practioner">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Healthcare_Team -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Healthcare_Team">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Helthcare_personal -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Helthcare_personal">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Laboratory -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Laboratory">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Medical -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Medical">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Officer -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Officer">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Pediatrician -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Pediatrician">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Resource"/>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Surgeon -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Surgeon">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+    </owl:Class>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Team -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Team">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team"/>
+    </owl:Class>
+	
+	<!-- ........................................MODIFICATO......................................................................................-->
+
+	<!-- urn:absolute:cnet2ADbusiness#Resource -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Resource">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:Class>
+    
+	<!-- urn:absolute:cnet2ADbusiness#Officer_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Officer_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Administrative_staff_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Administrative_staff_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Team_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Team_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Laboratory_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Laboratory_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Healthcare_Team_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Pediatrician_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Pediatrician_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#General_practioner_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#General_practioner_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Medical_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Medical_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Test_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Test_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Medical_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Consult_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Consult_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Medical_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Surgeon_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Surgeon_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+    </owl:Class>
+	
+	<!-- urn:absolute:cnet2ADbusiness#Healthcare_personal_activity -->
+
+    <owl:Class rdf:about="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity">
+        <rdfs:subClassOf rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+    </owl:Class>
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Cox -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Cox">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Dorian -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Dorian">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Espinosa -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Espinosa">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Officer"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Kelso -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Kelso">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Lb1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Lb1">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Laboratory"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Lb2 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Lb2">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Laboratory"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Quinlan -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Quinlan">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Reid -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Reid">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+	</owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Roberts -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Roberts">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Officer"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Tk1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Tk1">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Team"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Tk2 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Tk2">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Team"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:cnet2ADbusiness#Resource:Turk -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Resource:Turk">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Helthcare_personal"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Resource"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Surgeon"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+    </owl:NamedIndividual>
+	
+	
+	
+	
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Register_patient">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Officer_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Check_document">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Officer_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Dishcharge">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Officer_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Waiting_list">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Officer_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Reject">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Administrative_staff_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Officer_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:X-ray_Scan">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Team_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Tac">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Team_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:PEC">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Team_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Blood_Test">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Laboratory_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Analysis">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_Team_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Laboratory_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Surgery">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Surgeon_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Physical_test">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical_activity"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Test_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:First_Consult">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical_activity"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Consult_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Second_consult">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical_activity"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Consult_activity"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="urn:absolute:cnet2ADbusiness#Activity:Final_consult">
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Root"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Healthcare_personal_activity"/>
+        <rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Medical_activity"/>
+		<rdf:type rdf:resource="urn:absolute:cnet2ADbusiness#Consult_activity"/>
+    </owl:NamedIndividual>
+
+	
+	
+	
+	
+	
+	
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.6.20160910-2108) https://github.com/owlcs/owlapi -->
+
