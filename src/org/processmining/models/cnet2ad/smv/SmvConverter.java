@@ -92,41 +92,63 @@ public class SmvConverter
         ArrayList<ADedge> edges = new ArrayList<>();
         edges.add(e);
         ArrayList<State> s = new ArrayList<>();
-        
-        for (ADedge edge : edges)
+        boolean loop = true;
+        while (loop)
         {
-            ADnode endNode = edge.end();
-        
-            if ( endNode.isType(ADnode.BranchNode) )
+            for (ADedge edge : edges)
+            {
+                ADnode endNode = edge.end();
+
+                if ( endNode.isType(ADnode.BranchNode) )
+                {
+                    for ( ADedge ed : this.adgraph.edges())
+                    {
+                        if (ed.begin().id == endNode.id)
+                        {
+                            s.addAll(this.flow(ed, ownActivity)); //non sono collegati da collegare
+                        }
+                    }
+                }
+                if (endNode.isType(ADnode.Node))
+                {
+                    State newState = new State().setValues(ownActivity);
+                    if (s.size()>1)
+                    {
+                        s.get(s.size()-1).next.add(newState);
+                    }
+                    s.add(newState);
+                }
+                if(endNode.isType(ADnode.ForkNode))
+                {
+                    State newState = new State().setValues(ownActivity);
+                    if (s.size()>1)
+                    {
+                        s.get(s.size()-1).next.add(newState);
+                    }
+                    s.add(newState);
+                }
+            }
+
+            ArrayList<ADedge> newEdges = new ArrayList<>();
+            for (ADedge edge : edges)
             {
                 for ( ADedge ed : this.adgraph.edges())
                 {
-                    if (ed.begin().id == endNode.id)
+                    if (ed.begin().id == edge.end().id && !edge.end().isType(ADnode.BranchNode))
                     {
-                        s.addAll(this.flow(ed, ownActivity)); //non sono collegati da collegare
+                        newEdges.add(ed);
                     }
                 }
             }
-            if (endNode.isType(ADnode.Node))
+
+            if (newEdges.size()>0)
             {
-                State newState = new State().setValues(ownActivity);
-                if (s.size()>1)
-                {
-                    s.get(s.size()-1).next.add(newState);
-                }
-                s.add(newState);
-            }
-            if(endNode.isType(ADnode.ForkNode))
-            {
-                State newState = new State().setValues(ownActivity);
-                if (s.size()>1)
-                {
-                    s.get(s.size()-1).next.add(newState);
-                }
-                s.add(newState);
+                edges = newEdges;
+                loop = true;
+            }else{
+                loop = false;
             }
         }
-        
         
         return s;
     }
