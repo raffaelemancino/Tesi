@@ -4,27 +4,33 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 <Node name="First_Consult" id="2">
 <ExtendedInputBindings>
-{10, 10}
+{1, 10, 10, 1}
+{1, 1}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
-{6, 3, 6, 3}
 {3, 4, 6, 3, 4, 6}
 {4, 3, 6, 4, 3, 6}
-{3, 4, 3, 4}
+{11, 6, 3, 11, 6, 3}
+{3, 4, 11, 3, 4, 11}
 </ExtendedOutputBindings>
 </Node>
 <Node name="Second_consult" id="6">
 <ExtendedInputBindings>
+{2, 4, 4, 2}
 {2, 2}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
-{8, 8}
+{12, 8, 12, 8}
+{7, 8, 7, 8}
+{13, 8, 13, 8}
 </ExtendedOutputBindings>
 </Node>
 <Node name="PET" id="13">
 <ExtendedInputBindings>
+{6, 6}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
+{3, 3}
 </ExtendedOutputBindings>
 </Node>
 <Node name="Register_patient" id="0">
@@ -36,6 +42,7 @@ xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 </Node>
 <Node name="Dishcharge" id="9">
 <ExtendedInputBindings>
+{14, 14}
 {8, 8}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
@@ -43,9 +50,10 @@ xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 </Node>
 <Node name="Final_consult" id="8">
 <ExtendedInputBindings>
-{3, 6, 6, 3}
-{6, 3, 3, 6}
-{3, 3}
+{3, 5, 11, 11, 5, 3}
+{11, 6, 3, 3, 6, 11}
+{3, 6, 12, 12, 6, 3}
+{3, 5, 6, 7, 7, 6, 5, 3}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
 {9, 9}
@@ -53,8 +61,10 @@ xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 </Node>
 <Node name="MRI" id="12">
 <ExtendedInputBindings>
+{6, 6}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
+{8, 8}
 </ExtendedOutputBindings>
 </Node>
 <Node name="Check_document" id="1">
@@ -62,11 +72,14 @@ xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 {0, 0}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
-{10, 10}
+{10, 2, 10, 2}
+{14, 14}
+{2, 2}
 </ExtendedOutputBindings>
 </Node>
 <Node name="Blood_Test" id="3">
 <ExtendedInputBindings>
+{2, 13, 13, 2}
 {2, 2}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
@@ -83,8 +96,10 @@ xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 </Node>
 <Node name="Analysis" id="11">
 <ExtendedInputBindings>
+{2, 2}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
+{8, 8}
 </ExtendedOutputBindings>
 </Node>
 <Node name="X-ray_Scan" id="5">
@@ -92,18 +107,23 @@ xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 {4, 4}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
+{8, 8}
 </ExtendedOutputBindings>
 </Node>
 <Node name="Reject" id="14">
 <ExtendedInputBindings>
+{1, 1}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
+{9, 9}
 </ExtendedOutputBindings>
 </Node>
 <Node name="Surgery" id="7">
 <ExtendedInputBindings>
+{6, 6}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
+{8, 8}
 </ExtendedOutputBindings>
 </Node>
 <Node name="Physical_test" id="4">
@@ -111,17 +131,32 @@ xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
 {2, 2}
 </ExtendedInputBindings>
 <ExtendedOutputBindings>
+{6, 6}
 {5, 5}
+{5, 6, 5, 6}
 </ExtendedOutputBindings>
 </Node>
 <Edge src= "10" dest= "2" /> 
+<Edge src= "11" dest= "8" /> 
 <Edge src= "2" dest= "3" /> 
+<Edge src= "2" dest= "11" /> 
 <Edge src= "2" dest= "4" /> 
 <Edge src= "2" dest= "6" /> 
+<Edge src= "13" dest= "3" /> 
 <Edge src= "8" dest= "9" /> 
+<Edge src= "7" dest= "8" /> 
 <Edge src= "3" dest= "8" /> 
 <Edge src= "1" dest= "10" /> 
+<Edge src= "1" dest= "14" /> 
+<Edge src= "1" dest= "2" /> 
 <Edge src= "0" dest= "1" /> 
+<Edge src= "5" dest= "8" /> 
 <Edge src= "4" dest= "5" /> 
+<Edge src= "4" dest= "6" /> 
+<Edge src= "14" dest= "9" /> 
+<Edge src= "6" dest= "12" /> 
+<Edge src= "6" dest= "13" /> 
+<Edge src= "6" dest= "7" /> 
 <Edge src= "6" dest= "8" /> 
+<Edge src= "12" dest= "8" /> 
 </ExtendedCausalNet>

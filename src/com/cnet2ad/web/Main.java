@@ -5,7 +5,6 @@ import org.deckfour.xes.in.XesXmlParser;
 import org.deckfour.xes.model.XLog;
 import org.processmining.models.flexiblemodel.Flex;
 import org.processmining.models.graphbased.directed.bpmn.BPMNDiagram;
-import org.processmining.plugins.cnet2ad.semantic.OntologyManager;
 import org.processmining.plugins.cnet2ad.semantic.SemanticCnet2AD;
 import org.processmining.plugins.cnmining.CNMining;
 import org.processmining.plugins.cnmining.Settings;
@@ -40,6 +39,9 @@ import java.util.List;
  */
 
 public class Main {
+    
+    private ADgraph graph = new ADgraph();
+    
     public static void main(String[] args) {
 
         // Gestione dei parametri
@@ -126,6 +128,7 @@ public class Main {
                 saveFile(outputDir + outputFilename + ".json", graph.toJson());
             saveFile(outputDir + outputFilename + ".uml", graph.toXMI());
             saveFile(outputDir + outputFilename + ".txt", graph.toString());
+            saveFile(outputDir + outputFilename + ".smv", graph.toSmv());
 
             System.out.println("Cnet2ADRESULT=SUCCESS");
         }

@@ -1,0 +1,18 @@
+MODULE main
+VAR
+	s : { s0,  }
+	MRI : 0..1;
+	Physical_test : 0..1;
+	PET : 0..1;
+	Reject : 0..1;
+	Analysis : 0..1;
+	Final_consult : 0..1;
+	Waiting_list : 0..1;
+	Surgery : 0..1;
+	First_Consult : 0..1;
+	Second_consult : 0..1;
+	Check_document : 0..1;
+	Dishcharge : 0..1;
+	X-ray_Scan : 0..1;
+	Register_patient : 0..1;
+	Blood_Test : 0..1;
