@@ -21,7 +21,7 @@
 			<AuditTrailEntry>				
 				<WorkflowModelElement>Blood_Test</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Lb1</Originator>
+				<Originator>c1_BTD</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Physical_test</WorkflowModelElement>
@@ -31,7 +31,7 @@
 			<AuditTrailEntry>
 				<WorkflowModelElement>X-ray_Scan</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Tk1</Originator>
+				<Originator>c1_Xray</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Second_consult</WorkflowModelElement>
@@ -77,7 +77,7 @@
 			<AuditTrailEntry>				
 				<WorkflowModelElement>Blood_Test</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Lb1</Originator>
+				<Originator>c1_BTD</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Physical_test</WorkflowModelElement>
@@ -87,12 +87,12 @@
 			<AuditTrailEntry>
 				<WorkflowModelElement>X-ray_Scan</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Tk1</Originator>
+				<Originator>c1_Xray</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Analysis</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Lb1</Originator>
+				<Originator>c1_AD</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Final_consult</WorkflowModelElement>
@@ -134,7 +134,7 @@
 			<AuditTrailEntry>
 				<WorkflowModelElement>Blood_Test</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Lb2</Originator>
+				<Originator>c2_BTD</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Second_consult</WorkflowModelElement>
@@ -142,9 +142,9 @@
 				<Originator>Kelso</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
-				<WorkflowModelElement>Tac</WorkflowModelElement>
+				<WorkflowModelElement>MRI</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Tk2</Originator>
+				<Originator>c1_MRI</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Final_consult</WorkflowModelElement>
@@ -181,7 +181,7 @@
 			<AuditTrailEntry>				
 				<WorkflowModelElement>Analysis</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Lb1</Originator>
+				<Originator>c2_AD</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Second_consult</WorkflowModelElement>
@@ -189,14 +189,14 @@
 				<Originator>Kelso</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
-				<WorkflowModelElement>PEC</WorkflowModelElement>
+				<WorkflowModelElement>PET</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Tk2</Originator>
+				<Originator>c1_PET</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Blood_Test</WorkflowModelElement>
 				<EventType>complete</EventType>
-				<Originator>Lb1</Originator>
+				<Originator>c1_BTD</Originator>
 			</AuditTrailEntry>
 			<AuditTrailEntry>
 				<WorkflowModelElement>Final_consult</WorkflowModelElement>

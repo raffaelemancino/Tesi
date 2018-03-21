@@ -1,0 +1,57 @@
+RTTgraph:Activity Diagram
+Nodes:
+Node: X-ray_Scan, id: Node-0
+FinalNode: end, id: Node-1
+JoinNode: Final_consult_I1, id: Node-2
+Node: Physical_test, id: Node-3
+Node: Second_consult, id: Node-4
+InitialNode: start, id: Node-5
+Node: PET, id: Node-6
+ForkNode: First_Consult_O2, id: Node-7
+Node: Check_document, id: Node-8
+Node: Blood_Test, id: Node-9
+Node: Surgery, id: Node-10
+Node: First_Consult, id: Node-11
+ForkNode: First_Consult_O0, id: Node-12
+ForkNode: First_Consult_O1, id: Node-13
+Node: Analysis, id: Node-14
+Node: Reject, id: Node-15
+Node: Waiting_list, id: Node-16
+BranchNode: Blood_Test_Final_consult, id: Node-17
+Node: Final_consult, id: Node-18
+Node: MRI, id: Node-19
+BranchNode: First_Consult_O, id: Node-20
+Node: Register_patient, id: Node-21
+Node: Dishcharge, id: Node-22
+BranchNode: BranchInPhysical_test, id: Node-23
+BranchNode: BranchInSecond_consult, id: Node-24
+BranchNode: BranchInBlood_Test, id: Node-25
+BranchNode: BranchInFinal_consult, id: Node-26
+Edges:
+{ Node: X-ray_Scan, id: Node-0 -> FinalNode: end, id: Node-1 }
+{ InitialNode: start, id: Node-5 -> Node: Reject, id: Node-15 }
+{ Node: First_Consult, id: Node-11 -> BranchNode: First_Consult_O, id: Node-20 }
+{ BranchNode: First_Consult_O, id: Node-20 -> ForkNode: First_Consult_O0, id: Node-12 }
+{ BranchNode: First_Consult_O, id: Node-20 -> ForkNode: First_Consult_O1, id: Node-13 }
+{ BranchNode: First_Consult_O, id: Node-20 -> ForkNode: First_Consult_O2, id: Node-7 }
+{ BranchNode: Blood_Test_Final_consult, id: Node-17 -> JoinNode: Final_consult_I1, id: Node-2 }
+{ Node: Physical_test, id: Node-3 -> Node: X-ray_Scan, id: Node-0 }
+{ Node: Check_document, id: Node-8 -> Node: Waiting_list, id: Node-16 }
+{ Node: Blood_Test, id: Node-9 -> BranchNode: Blood_Test_Final_consult, id: Node-17 }
+{ Node: Waiting_list, id: Node-16 -> Node: First_Consult, id: Node-11 }
+{ Node: Second_consult, id: Node-4 -> JoinNode: Final_consult_I1, id: Node-2 }
+{ Node: Register_patient, id: Node-21 -> Node: Check_document, id: Node-8 }
+{ Node: Final_consult, id: Node-18 -> Node: Dishcharge, id: Node-22 }
+{ ForkNode: First_Consult_O2, id: Node-7 -> BranchNode: BranchInPhysical_test, id: Node-23 }
+{ ForkNode: First_Consult_O1, id: Node-13 -> BranchNode: BranchInPhysical_test, id: Node-23 }
+{ ForkNode: First_Consult_O2, id: Node-7 -> BranchNode: BranchInBlood_Test, id: Node-25 }
+{ ForkNode: First_Consult_O0, id: Node-12 -> BranchNode: BranchInBlood_Test, id: Node-25 }
+{ ForkNode: First_Consult_O1, id: Node-13 -> BranchNode: BranchInBlood_Test, id: Node-25 }
+{ JoinNode: Final_consult_I1, id: Node-2 -> BranchNode: BranchInFinal_consult, id: Node-26 }
+{ BranchNode: Blood_Test_Final_consult, id: Node-17 -> BranchNode: BranchInFinal_consult, id: Node-26 }
+{ ForkNode: First_Consult_O2, id: Node-7 -> BranchNode: BranchInSecond_consult, id: Node-24 }
+{ ForkNode: First_Consult_O0, id: Node-12 -> BranchNode: BranchInSecond_consult, id: Node-24 }
+{ BranchNode: BranchInPhysical_test, id: Node-23 -> Node: Physical_test, id: Node-3 }
+{ BranchNode: BranchInSecond_consult, id: Node-24 -> Node: Second_consult, id: Node-4 }
+{ BranchNode: BranchInBlood_Test, id: Node-25 -> Node: Blood_Test, id: Node-9 }
+{ BranchNode: BranchInFinal_consult, id: Node-26 -> Node: Final_consult, id: Node-18 }

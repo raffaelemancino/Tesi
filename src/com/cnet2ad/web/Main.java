@@ -112,16 +112,15 @@ public class Main {
         }
 
         ADgraph graph = new ADgraph();
-
         try{
             Object[] data = CNMining.startCNMining(null, log, settings, false);
             Flex causalnet = (Flex)data[0];
 
             BPMNDiagram bpmn = Flex2BPMN.convert(causalnet);
-
+            
             Cnet2AD mining = new Cnet2AD(bpmn);
             graph = mining.process();
-
+            
             System.out.println("OutputDit = " + outputDir);
             if(exportJson)
                 saveFile(outputDir + outputFilename + ".json", graph.toJson());
@@ -134,7 +133,7 @@ public class Main {
             System.out.println("Exception " + e.toString());
             System.out.println("Cnet2ADRESULT=ERROR");
         }
-
+        
         try {
             if(ontologyOutputFilename.isEmpty() == false){
 

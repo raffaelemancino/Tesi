@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="68237664" name="Activity Diagram">
+<packagedElement xmi:type="uml:Activity" xmi:id="46582386" name="Activity Diagram" node="Node-0 Node-1 Node-2 Node-3 Node-4 Node-5 Node-6 Node-7 Node-8 Node-9 Node-10 Node-11 Node-12 Node-13 Node-14 Node-15 Node-16 Node-17 Node-18 Node-19 Node-20 Node-21 Node-22 Node-23 Node-24 Node-25 Node-26 ">
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-0" name="X-ray_Scan" outgoing="Edge-0" incoming="Edge-7"/>
+<node xmi:type="uml:ActivityFinalNode" xmi:id="Node-1" name="end" incoming="Edge-0"/>
+<node xmi:type="uml:JoinNode" xmi:id="Node-2" name="Final_consult_I1" outgoing="Edge-19" incoming="Edge-6 Edge-11">
+<joinSpec xmi:type="uml:LiteralBoolean" xmi:id="Node-2_spec" name="Final_consult_I1" value="true"/>
+</node>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-3" name="Physical_test" outgoing="Edge-7" incoming="Edge-23"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-4" name="Second_consult" outgoing="Edge-11" incoming="Edge-24"/>
+<node xmi:type="uml:InitialNode" xmi:id="Node-5" name="start" outgoing="Edge-1"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-6" name="PET"/>
+<node xmi:type="uml:ForkNode" xmi:id="Node-7" name="First_Consult_O2" outgoing="Edge-14 Edge-16 Edge-21" incoming="Edge-5"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-8" name="Check_document" outgoing="Edge-8" incoming="Edge-12"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-9" name="Blood_Test" outgoing="Edge-9" incoming="Edge-25"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-10" name="Surgery"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-11" name="First_Consult" outgoing="Edge-2" incoming="Edge-10"/>
+<node xmi:type="uml:ForkNode" xmi:id="Node-12" name="First_Consult_O0" outgoing="Edge-17 Edge-22" incoming="Edge-3"/>
+<node xmi:type="uml:ForkNode" xmi:id="Node-13" name="First_Consult_O1" outgoing="Edge-15 Edge-18" incoming="Edge-4"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-14" name="Analysis"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-15" name="Reject" incoming="Edge-1"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-16" name="Waiting_list" outgoing="Edge-10" incoming="Edge-8"/>
+<node xmi:type="uml:DecisionNode" xmi:id="Node-17" name="Blood_Test_Final_consult" outgoing="Edge-6 Edge-20" incoming="Edge-9"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-18" name="Final_consult" outgoing="Edge-13" incoming="Edge-26"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-19" name="MRI"/>
+<node xmi:type="uml:DecisionNode" xmi:id="Node-20" name="First_Consult_O" outgoing="Edge-3 Edge-4 Edge-5" incoming="Edge-2"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-21" name="Register_patient" outgoing="Edge-12"/>
+<node xmi:type="uml:OpaqueAction" xmi:id="Node-22" name="Dishcharge" incoming="Edge-13"/>
+<node xmi:type="uml:DecisionNode" xmi:id="Node-23" name="BranchInPhysical_test" outgoing="Edge-23" incoming="Edge-14 Edge-15"/>
+<node xmi:type="uml:DecisionNode" xmi:id="Node-24" name="BranchInSecond_consult" outgoing="Edge-24" incoming="Edge-21 Edge-22"/>
+<node xmi:type="uml:DecisionNode" xmi:id="Node-25" name="BranchInBlood_Test" outgoing="Edge-25" incoming="Edge-16 Edge-17 Edge-18"/>
+<node xmi:type="uml:DecisionNode" xmi:id="Node-26" name="BranchInFinal_consult" outgoing="Edge-26" incoming="Edge-19 Edge-20"/>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-0" target="Node-1" source="Node-0" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-0guard" name="X-ray_Scan_To_end_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-0weight" name="X-ray_Scan_To_end_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-1" target="Node-15" source="Node-5" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-1guard" name="start_To_Reject_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-1weight" name="start_To_Reject_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-2" target="Node-20" source="Node-11" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-2guard" name="First_Consult_To_First_Consult_O_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-2weight" name="First_Consult_To_First_Consult_O_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-3" target="Node-12" source="Node-20" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-3guard" name="First_Consult_O_To_First_Consult_O0_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-3weight" name="First_Consult_O_To_First_Consult_O0_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-4" target="Node-13" source="Node-20" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-4guard" name="First_Consult_O_To_First_Consult_O1_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-4weight" name="First_Consult_O_To_First_Consult_O1_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-5" target="Node-7" source="Node-20" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-5guard" name="First_Consult_O_To_First_Consult_O2_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-5weight" name="First_Consult_O_To_First_Consult_O2_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-6" target="Node-2" source="Node-17" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-6guard" name="Blood_Test_Final_consult_To_Final_consult_I1_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-6weight" name="Blood_Test_Final_consult_To_Final_consult_I1_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-7" target="Node-0" source="Node-3" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-7guard" name="Physical_test_To_X-ray_Scan_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-7weight" name="Physical_test_To_X-ray_Scan_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-8" target="Node-16" source="Node-8" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-8guard" name="Check_document_To_Waiting_list_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-8weight" name="Check_document_To_Waiting_list_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-9" target="Node-17" source="Node-9" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-9guard" name="Blood_Test_To_Blood_Test_Final_consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-9weight" name="Blood_Test_To_Blood_Test_Final_consult_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-10" target="Node-11" source="Node-16" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-10guard" name="Waiting_list_To_First_Consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-10weight" name="Waiting_list_To_First_Consult_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-11" target="Node-2" source="Node-4" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-11guard" name="Second_consult_To_Final_consult_I1_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-11weight" name="Second_consult_To_Final_consult_I1_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-12" target="Node-8" source="Node-21" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-12guard" name="Register_patient_To_Check_document_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-12weight" name="Register_patient_To_Check_document_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-13" target="Node-22" source="Node-18" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-13guard" name="Final_consult_To_Dishcharge_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-13weight" name="Final_consult_To_Dishcharge_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-14" target="Node-23" source="Node-7" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-14guard" name="First_Consult_O2_To_BranchInPhysical_test_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-14weight" name="First_Consult_O2_To_BranchInPhysical_test_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-15" target="Node-23" source="Node-13" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-15guard" name="First_Consult_O1_To_BranchInPhysical_test_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-15weight" name="First_Consult_O1_To_BranchInPhysical_test_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-16" target="Node-25" source="Node-7" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-16guard" name="First_Consult_O2_To_BranchInBlood_Test_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-16weight" name="First_Consult_O2_To_BranchInBlood_Test_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-17" target="Node-25" source="Node-12" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-17guard" name="First_Consult_O0_To_BranchInBlood_Test_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-17weight" name="First_Consult_O0_To_BranchInBlood_Test_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-18" target="Node-25" source="Node-13" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-18guard" name="First_Consult_O1_To_BranchInBlood_Test_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-18weight" name="First_Consult_O1_To_BranchInBlood_Test_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-19" target="Node-26" source="Node-2" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-19guard" name="Final_consult_I1_To_BranchInFinal_consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-19weight" name="Final_consult_I1_To_BranchInFinal_consult_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-20" target="Node-26" source="Node-17" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-20guard" name="Blood_Test_Final_consult_To_BranchInFinal_consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-20weight" name="Blood_Test_Final_consult_To_BranchInFinal_consult_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-21" target="Node-24" source="Node-7" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-21guard" name="First_Consult_O2_To_BranchInSecond_consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-21weight" name="First_Consult_O2_To_BranchInSecond_consult_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-22" target="Node-24" source="Node-12" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-22guard" name="First_Consult_O0_To_BranchInSecond_consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-22weight" name="First_Consult_O0_To_BranchInSecond_consult_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-23" target="Node-3" source="Node-23" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-23guard" name="BranchInPhysical_test_To_Physical_test_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-23weight" name="BranchInPhysical_test_To_Physical_test_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-24" target="Node-4" source="Node-24" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-24guard" name="BranchInSecond_consult_To_Second_consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-24weight" name="BranchInSecond_consult_To_Second_consult_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-25" target="Node-9" source="Node-25" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-25guard" name="BranchInBlood_Test_To_Blood_Test_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-25weight" name="BranchInBlood_Test_To_Blood_Test_weight" />
+</edge>
+<edge xmi:type="uml:ControlFlow" xmi:id="Edge-26" target="Node-18" source="Node-26" >
+	<guard xmi:type="uml:LiteralBoolean" xmi:id="Edge-26guard" name="BranchInFinal_consult_To_Final_consult_guard" value="true"/>
+	<weight xmi:type="uml:LiteralInteger" xmi:id="Edge-26weight" name="BranchInFinal_consult_To_Final_consult_weight" />
+</edge>
+</packagedElement>
+</uml:Model>

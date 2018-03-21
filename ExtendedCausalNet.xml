@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtendedCausalNet name="Healthcare Log  "
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="ExtendedCausalNetSchema.xsd">
+<Node name="First_Consult" id="2">
+<ExtendedInputBindings>
+{10, 10}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{6, 3, 6, 3}
+{3, 4, 6, 3, 4, 6}
+{4, 3, 6, 4, 3, 6}
+{3, 4, 3, 4}
+</ExtendedOutputBindings>
+</Node>
+<Node name="Second_consult" id="6">
+<ExtendedInputBindings>
+{2, 2}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{8, 8}
+</ExtendedOutputBindings>
+</Node>
+<Node name="PET" id="13">
+<ExtendedInputBindings>
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+</ExtendedOutputBindings>
+</Node>
+<Node name="Register_patient" id="0">
+<ExtendedInputBindings>
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{1, 1}
+</ExtendedOutputBindings>
+</Node>
+<Node name="Dishcharge" id="9">
+<ExtendedInputBindings>
+{8, 8}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+</ExtendedOutputBindings>
+</Node>
+<Node name="Final_consult" id="8">
+<ExtendedInputBindings>
+{3, 6, 6, 3}
+{6, 3, 3, 6}
+{3, 3}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{9, 9}
+</ExtendedOutputBindings>
+</Node>
+<Node name="MRI" id="12">
+<ExtendedInputBindings>
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+</ExtendedOutputBindings>
+</Node>
+<Node name="Check_document" id="1">
+<ExtendedInputBindings>
+{0, 0}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{10, 10}
+</ExtendedOutputBindings>
+</Node>
+<Node name="Blood_Test" id="3">
+<ExtendedInputBindings>
+{2, 2}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{8, 8}
+</ExtendedOutputBindings>
+</Node>
+<Node name="Waiting_list" id="10">
+<ExtendedInputBindings>
+{1, 1}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{2, 2}
+</ExtendedOutputBindings>
+</Node>
+<Node name="Analysis" id="11">
+<ExtendedInputBindings>
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+</ExtendedOutputBindings>
+</Node>
+<Node name="X-ray_Scan" id="5">
+<ExtendedInputBindings>
+{4, 4}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+</ExtendedOutputBindings>
+</Node>
+<Node name="Reject" id="14">
+<ExtendedInputBindings>
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+</ExtendedOutputBindings>
+</Node>
+<Node name="Surgery" id="7">
+<ExtendedInputBindings>
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+</ExtendedOutputBindings>
+</Node>
+<Node name="Physical_test" id="4">
+<ExtendedInputBindings>
+{2, 2}
+</ExtendedInputBindings>
+<ExtendedOutputBindings>
+{5, 5}
+</ExtendedOutputBindings>
+</Node>
+<Edge src= "10" dest= "2" /> 
+<Edge src= "2" dest= "3" /> 
+<Edge src= "2" dest= "4" /> 
+<Edge src= "2" dest= "6" /> 
+<Edge src= "8" dest= "9" /> 
+<Edge src= "3" dest= "8" /> 
+<Edge src= "1" dest= "10" /> 
+<Edge src= "0" dest= "1" /> 
+<Edge src= "4" dest= "5" /> 
+<Edge src= "6" dest= "8" /> 
+</ExtendedCausalNet>
