@@ -11,10 +11,11 @@ import java.util.ArrayList;
  *
  * @author Raffaele Francesco Mancino
  */
-public class State
+public class Activity
 {
-    public int id;
-    ArrayList<State> next = new ArrayList<>();
-    ArrayList<Property> values = new ArrayList<>();
+    public ArrayList<Property> properties;
 
+    public Activity()
+    {
+    }
 }

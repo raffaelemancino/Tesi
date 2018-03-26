@@ -17,13 +17,14 @@ import org.processmining.models.cnet2ad.ADnode;
 public class SmvConverter
 {
     private ADgraph adgraph;
-    private ArrayList<Property> activities;
+    private ArrayList<Property> marks; //ogni fork node ha la sua activity comune a tutti i nodi successivi
     private ArrayList<State> states;
+    
     public SmvConverter(ADgraph graph)
     {
         this.adgraph = graph;
-        this.activities = this.getActivities();
-        this.states = this.getStates(activities);
+        this.marks = this.getActivities();
+        this.states = this.getStates();
     }
     
     public String convert()
@@ -34,17 +35,20 @@ public class SmvConverter
         
         
         int i=0;
+        //states
         smv.append("\t" + "s : { ");
-        for (State state : states)
+        
+        smv.append("s" + this.states.get(0).id);
+        for (i=1; i<this.states.size(); i++)
         {
-            smv.append("s" + state.id + ", ");
+            smv.append(", s" + this.states.get(i).id);
         }
         smv.append(" }" + "\n");
         
-        for (i = 0; i < this.activities.size(); i++)
+        //activities
+        for (i = 0; i < this.marks.size(); i++)
         {
-            //smv.append("\t" + "a" + String.valueOf(i) + ": 0..1;" + "\n");
-            smv.append("\t" + this.activities.get(i).getName() + " : 0..1;" + "\n");
+            smv.append("\t" + this.marks.get(i).name + " : 0..1;" + "\n");
         }
         return smv.toString();
     }
@@ -57,117 +61,48 @@ public class SmvConverter
             if (node.isType(ADnode.Node))
             {
                 Property property = new Property();
-                property.setName(node.name);
+                property.name = node.name;
                 activities.add(property);
             }
         }
         return activities;
     }
-    
-    private ArrayList<State> getStates(ArrayList<Property> activities)
+        
+    /**
+     * Dato un edge restituisce gli edge del passo successivo (se sono presenti altre fork,
+     * restituisce anche gli edge successivi a queste)
+     * @param beforeEdge edge precedente alla nodo di fork
+     * @return lista dei nodi successivi a una fork
+     */
+    public ArrayList<ADedge> nextForkEdge(ADedge beforeEdge)
     {
-        ArrayList<State> s = new ArrayList<>();
-        
-        
-        ArrayList<ADedge> currentedges = this.nextEdge();
-        ADnode currentnode = currentedges.get(0).begin();
-        s.add(new State().setValues(activities));
-        
-        
-        
-        //attribuisce in numero allo stato s(i)
-        int i=0;
-        for (State state : s)
+        ArrayList<ADedge> list = new ArrayList<>();
+        for (ADedge edge : this.adgraph.edges())
         {
-            state.id = i;
-            i++;
-        }
-        
-        return s;
-    }
-    
-    private ArrayList<State> flow(ADedge e, ArrayList<Property> childActivity)
-    {
-        ArrayList<Property> ownActivity = childActivity;
-        ArrayList<ADedge> edges = new ArrayList<>();
-        edges.add(e);
-        ArrayList<State> s = new ArrayList<>();
-        boolean loop = true;
-        while (loop)
-        {
-            for (ADedge edge : edges)
+            if (beforeEdge.end().id == edge.begin().id)
             {
-                ADnode endNode = edge.end();
-
-                if ( endNode.isType(ADnode.BranchNode) )
+                if (edge.end().isType(ADnode.ForkNode))
                 {
-                    for ( ADedge ed : this.adgraph.edges())
-                    {
-                        if (ed.begin().id == endNode.id)
-                        {
-                            s.addAll(this.flow(ed, ownActivity)); //non sono collegati da collegare
-                        }
-                    }
+                    list.addAll(this.nextForkEdge(edge));
+                }else{
+                    list.add(edge);
                 }
-                if (endNode.isType(ADnode.Node))
-                {
-                    State newState = new State().setValues(ownActivity);
-                    if (s.size()>1)
-                    {
-                        s.get(s.size()-1).next.add(newState);
-                    }
-                    s.add(newState);
-                }
-                if(endNode.isType(ADnode.ForkNode))
-                {
-                    State newState = new State().setValues(ownActivity);
-                    if (s.size()>1)
-                    {
-                        s.get(s.size()-1).next.add(newState);
-                    }
-                    s.add(newState);
-                }
-            }
-
-            ArrayList<ADedge> newEdges = new ArrayList<>();
-            for (ADedge edge : edges)
-            {
-                for ( ADedge ed : this.adgraph.edges())
-                {
-                    if (ed.begin().id == edge.end().id && !edge.end().isType(ADnode.BranchNode))
-                    {
-                        newEdges.add(ed);
-                    }
-                }
-            }
-
-            if (newEdges.size()>0)
-            {
-                edges = newEdges;
-                loop = true;
-            }else{
-                loop = false;
             }
         }
-        
-        return s;
+        return list;
     }
     
-    private ArrayList<ADedge> nextEdge(ADedge oldedge)
+    public ArrayList<ADedge> nextBranchEdge(ADedge beforeEdge)
     {
-        ArrayList<ADedge> rest = new ArrayList<>();
-        ADnode node = oldedge.end();
-        for (ADedge edge : this.adgraph.edges() )
+        ArrayList<ADedge> list = new ArrayList<>();
+        for (ADedge edge : this.adgraph.edges())
         {
-            if(node.id==edge.begin().id)
-            {
-                rest.add(edge);
-            }
+            list.add(edge);
         }
-        return rest;
+        return list;
     }
     
-    private ArrayList<ADedge> nextEdge()
+    private ArrayList<ADedge> firstEdge()
     {
         ArrayList<ADedge> rest = new ArrayList<>();
         for (ADedge edge : this.adgraph.edges())
@@ -185,5 +120,34 @@ public class SmvConverter
     private ArrayList<ADnode> getResources()
     {
         return null;
+    }
+
+    private ArrayList<State> getStates()
+    {
+        //vettore degli stati da restituire
+        ArrayList<State> result = new ArrayList<>();
+        //matrice dei possibili marks, ogni or produce un nuovo marks
+        ArrayList<ArrayList<Property>> marksMatrix = new ArrayList<>();
+        //siccome vi è un sono nodo iniziale inizializzo con un solo mark
+        marksMatrix.add(this.marks);
+        //vettore degli edges da attraversare simultaneamente ( prodotti da fork )
+        ArrayList<ADedge> edges = new ArrayList<>();
+        //primo edge per attraversare il grafo
+        edges = this.firstEdge();
+        
+        for (ADedge edge : edges)
+        {
+            if (edge.end().isType(ADnode.ForkNode))
+            {
+                ArrayList<ADedge> newEdges = new ArrayList<>();
+                newEdges.addAll(this.nextForkEdge(edge));
+                for (ADedge newEdge : newEdges)
+                {
+                    
+                }
+            }
+        }
+        
+        return result;
     }
 }

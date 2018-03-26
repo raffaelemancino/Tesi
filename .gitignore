@@ -1,1 +1,6 @@
 /nbproject/
+/files/*.smv
+/files/*.txt
+/files/*.uml
+/files/*.xml
+/files/test.mxml
