@@ -23,10 +23,14 @@ public class SmvConverter
     public SmvConverter(ADgraph graph)
     {
         this.adgraph = graph;
-        this.marks = this.getActivities();
+        this.marks = this.getProperties();
         this.states = this.getStates();
     }
     
+    /**
+     * Avvia la conversione del ADgraph
+     * @return File per NuXMV
+     */
     public String convert()
     {
         StringBuilder smv = new StringBuilder();
@@ -44,7 +48,7 @@ public class SmvConverter
         {
             smv.append(", s" + this.states.get(i).id);
         }
-        smv.append(" }" + "\n");
+        smv.append(" };" + "\n");
         
         //activities s : 0..1;
         for (i = 0; i < this.marks.size(); i++)
@@ -56,7 +60,7 @@ public class SmvConverter
         smv.append("ASSIGN" + "\n");
         
         //states transation
-        smv.append("\t" + "init(s) := s" + this.states.get(0).id + "\n");
+        smv.append("\t" + "init(s) := s" + this.states.get(0).id + ";\n");
         smv.append("\t" + "next(s) := case" + "\n");
         for(State s : this.states)
         {
@@ -77,15 +81,29 @@ public class SmvConverter
                     }
                     smv.append(" }");
                 }
-                smv.append("\n");
+                smv.append(";\n");
             }
         }
-        smv.append("\t" + "esac;");
+        smv.append("\t" + "esac;" + "\n");
+        
+        for(i=0; i < this.marks.size(); i++)
+        {
+            smv.append("\t" + this.marks.get(i).name + " := case" + "\n");
+            for(State s : this.states)
+            {
+                if(s.values.get(i).value==1)
+                {
+                    smv.append("\t\t" + "s = s" + s.id + " : 1;" + "\n");
+                }
+            }
+            smv.append("\t\t" + "TRUE : 0;" + "\n");
+            smv.append("\t\t" + "esac;" + "\n");
+        }
         
         return smv.toString();
     }
     
-    private ArrayList<Property> getActivities()
+    private ArrayList<Property> getProperties()
     {
         ArrayList<Property> activities = new ArrayList();
         for (ADnode node : this.adgraph.nodes())
@@ -106,7 +124,7 @@ public class SmvConverter
      * @param beforeEdge edge precedente alla nodo di fork
      * @return lista dei nodi successivi a una fork
      */
-    public ArrayList<ADedge> nextForkEdge(ADedge beforeEdge)
+    private ArrayList<ADedge> nextForkEdge(ADedge beforeEdge)
     {
         ArrayList<ADedge> list = new ArrayList<>();
         for (ADedge edge : this.adgraph.edges())
@@ -130,7 +148,7 @@ public class SmvConverter
         return list;
     }
     
-    public ArrayList<ADedge> nextBranchEdge(ADedge beforeEdge)
+    private ArrayList<ADedge> nextBranchEdge(ADedge beforeEdge)
     {
         ArrayList<ADedge> list = new ArrayList<>();
         for (ADedge edge : this.adgraph.edges())
@@ -183,6 +201,11 @@ public class SmvConverter
         return result;
     }
     
+    /**
+     * Solo per debug
+     * @deprecated
+     */
+    @Deprecated
     private ArrayList<State> getStatesD()
     {
         ArrayList<State> states = new ArrayList<>();
@@ -199,6 +222,17 @@ public class SmvConverter
         s1.next.add(s3);
         s2.next.add(s3);
         s3.next.add(s0);
+        
+        s0.values = this.getProperties();
+        s1.values = this.getProperties();
+        s2.values = this.getProperties();
+        s3.values = this.getProperties();
+        
+        s0.values.get(0).value = 1;
+        s1.values.get(1).value = 1;
+        s1.values.get(2).value = 1;
+        s2.values.get(2).value = 1;
+        s3.values.get(3).value = 1;
         
         states.add(s0);
         states.add(s1);
