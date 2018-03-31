@@ -134,12 +134,6 @@ public class Main {
         }
         catch(Exception e){
             System.out.println("Exception " + e.toString());
-            
-            for (StackTraceElement elem : e.getStackTrace())
-            {
-                System.err.println(elem.getClassName() + " " + elem.getMethodName() + " " + elem.getLineNumber());
-            }
-            
             System.out.println("Cnet2ADRESULT=ERROR");
         }
         

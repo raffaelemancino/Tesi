@@ -33,9 +33,10 @@ public class SmvConverter
         smv.append("MODULE main" + "\n");
         smv.append("VAR" + "\n");
         
+        this.states = this.getStatesD();
         
         int i=0;
-        //states
+        //states s : { s0, s1, s2, }
         smv.append("\t" + "s : { ");
         
         smv.append("s" + this.states.get(0).id);
@@ -45,11 +46,42 @@ public class SmvConverter
         }
         smv.append(" }" + "\n");
         
-        //activities
+        //activities s : 0..1;
         for (i = 0; i < this.marks.size(); i++)
         {
             smv.append("\t" + this.marks.get(i).name + " : 0..1;" + "\n");
         }
+        
+        //assigment section
+        smv.append("ASSIGN" + "\n");
+        
+        //states transation
+        smv.append("\t" + "init(s) := s" + this.states.get(0).id + "\n");
+        smv.append("\t" + "next(s) := case" + "\n");
+        for(State s : this.states)
+        {
+            if(s.next.size()!=0)
+            {
+                smv.append("\t\t" + "s = s" + s.id + " : ");
+                if(s.next.size()==1)
+                {
+                    smv.append("s" + s.next.get(0).id);
+                }else if(s.next.size()>1)
+                {
+                    smv.append("{ ");
+                    smv.append("s" + s.next.get(0).id);
+
+                    for (int j=1; j<s.next.size(); j++)
+                    {
+                        smv.append(", s" + s.next.get(j).id);
+                    }
+                    smv.append(" }");
+                }
+                smv.append("\n");
+            }
+        }
+        smv.append("\t" + "esac;");
+        
         return smv.toString();
     }
     
@@ -84,6 +116,12 @@ public class SmvConverter
                 if (edge.end().isType(ADnode.ForkNode))
                 {
                     list.addAll(this.nextForkEdge(edge));
+                }else if(edge.end().isType(ADnode.BranchNode)){
+                    ArrayList<ADedge> temp = this.nextBranchEdge(edge);
+                    if(temp.size()==1)
+                    {
+                        list.addAll(temp);
+                    }
                 }else{
                     list.add(edge);
                 }
@@ -115,12 +153,6 @@ public class SmvConverter
         }
         return null;
     }
-    
-    @Deprecated
-    private ArrayList<ADnode> getResources()
-    {
-        return null;
-    }
 
     private ArrayList<State> getStates()
     {
@@ -149,5 +181,30 @@ public class SmvConverter
         }
         
         return result;
+    }
+    
+    private ArrayList<State> getStatesD()
+    {
+        ArrayList<State> states = new ArrayList<>();
+        State s0 = new State();
+        s0.id=0;
+        State s1 = new State();
+        s1.id=1;
+        State s2 = new State();
+        s2.id=2;
+        State s3 = new State();
+        s3.id=3;
+        s0.next.add(s1);
+        s1.next.add(s2);
+        s1.next.add(s3);
+        s2.next.add(s3);
+        s3.next.add(s0);
+        
+        states.add(s0);
+        states.add(s1);
+        states.add(s2);
+        states.add(s3);
+        
+        return states;
     }
 }
