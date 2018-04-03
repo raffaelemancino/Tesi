@@ -17,18 +17,14 @@ import org.processmining.models.cnet2ad.ADnode;
 public class SmvConverter
 {
     private ADgraph adgraph;
-    private ArrayList<Property> marks; //ogni fork node ha la sua activity comune a tutti i nodi successivi
-    private ArrayList<State> states;
     
     public SmvConverter(ADgraph graph)
     {
         this.adgraph = graph;
-        this.marks = this.getProperties();
-        this.states = this.getStates();
     }
     
     /**
-     * Avvia la conversione del ADgraph
+     * Avvia la conversione del ADgraph e lo serializza
      * @return File per NuXMV
      */
     public String convert()
@@ -37,32 +33,34 @@ public class SmvConverter
         smv.append("MODULE main" + "\n");
         smv.append("VAR" + "\n");
         
-        this.states = this.getStatesD();
+        //ArrayList<State> states = this.getStatesD();
+        ArrayList<State> states = this.getStates();
+        ArrayList<Property> marks = this.getProperties();
         
         int i=0;
         //states s : { s0, s1, s2, }
         smv.append("\t" + "s : { ");
         
-        smv.append("s" + this.states.get(0).id);
-        for (i=1; i<this.states.size(); i++)
+        smv.append("s" + states.get(0).id);
+        for (i=1; i<states.size(); i++)
         {
-            smv.append(", s" + this.states.get(i).id);
+            smv.append(", s" + states.get(i).id);
         }
         smv.append(" };" + "\n");
         
         //activities s : 0..1;
-        for (i = 0; i < this.marks.size(); i++)
+        for (i = 0; i < marks.size(); i++)
         {
-            smv.append("\t" + this.marks.get(i).name + " : 0..1;" + "\n");
+            smv.append("\t" + marks.get(i).name + " : 0..1;" + "\n");
         }
         
         //assigment section
         smv.append("ASSIGN" + "\n");
         
         //states transation
-        smv.append("\t" + "init(s) := s" + this.states.get(0).id + ";\n");
+        smv.append("\t" + "init(s) := s" + states.get(0).id + ";\n");
         smv.append("\t" + "next(s) := case" + "\n");
-        for(State s : this.states)
+        for(State s : states)
         {
             if(s.next.size()!=0)
             {
@@ -86,10 +84,11 @@ public class SmvConverter
         }
         smv.append("\t" + "esac;" + "\n");
         
-        for(i=0; i < this.marks.size(); i++)
+        //activities value
+        for(i=0; i < marks.size(); i++)
         {
-            smv.append("\t" + this.marks.get(i).name + " := case" + "\n");
-            for(State s : this.states)
+            smv.append("\t" + marks.get(i).name + " := case" + "\n");
+            for(State s : states)
             {
                 if(s.values.get(i).value==1)
                 {
@@ -103,21 +102,67 @@ public class SmvConverter
         return smv.toString();
     }
     
+    /**
+     * Restituisce tutte le attività dell'applicazione, con opportune modifiche
+     * può restituire risorse e attività dell'applicazione
+     * @return lista delle attività
+     */
     private ArrayList<Property> getProperties()
     {
-        ArrayList<Property> activities = new ArrayList();
+        ArrayList<Property> properties = new ArrayList();
         for (ADnode node : this.adgraph.nodes())
         {
             if (node.isType(ADnode.Node))
             {
                 Property property = new Property();
                 property.name = node.name;
-                activities.add(property);
+                properties.add(property);
             }
         }
-        return activities;
+        return properties;
     }
+    
+    private ArrayList<ArrayList<ADedge>> nextEdge(ArrayList<ADedge> oldedges)
+    {
+        ArrayList<ArrayList<ADedge>> newFlow = new ArrayList<ArrayList<ADedge>>();
+        //fork edges conterrà tutte le operazioni avvenute in contemporanea
+        ArrayList<ADedge> forkEdges = new ArrayList<>();
+        if(oldedges.size()==1)
+        {
+            for (ADedge edge : oldedges)
+            {
+                forkEdges.addAll(this.nextForkEdge(edge));
+            }
+        }else if(oldedges.size()>1)
+        {
+            for (int i=0; i<oldedges.size(); i++)
+            {
+                ADedge edge = oldedges.get(i);
+                if(edge.end().isType(ADnode.JoinNode))
+                {
+                    forkEdges.add(edge);
+                    oldedges.remove(i);
+                }
+            }
+            for(ADedge edge : oldedges)
+            {
+                forkEdges.addAll(this.nextForkEdge(edge));
+            }
+        }
         
+        //creerà una nuova riga della matrice per ogni brach
+        boolean branch = false;
+        for (ADedge edge : oldedges)
+        {
+            if (edge.end().isType(ADnode.BranchNode))
+            {
+                
+            }
+        }
+        
+        return newFlow;
+    }
+    
     /**
      * Dato un edge restituisce gli edge del passo successivo (se sono presenti altre fork,
      * restituisce anche gli edge successivi a queste)
@@ -153,7 +198,10 @@ public class SmvConverter
         ArrayList<ADedge> list = new ArrayList<>();
         for (ADedge edge : this.adgraph.edges())
         {
-            list.add(edge);
+            if(beforeEdge.end().id == edge.begin().id)
+            {
+                list.add(edge);
+            }
         }
         return list;
     }
@@ -174,31 +222,54 @@ public class SmvConverter
 
     private ArrayList<State> getStates()
     {
-        //vettore degli stati da restituire
+        /**
+         * vettore degli stati da restituire
+         */
         ArrayList<State> result = new ArrayList<>();
-        //matrice dei possibili marks, ogni or produce un nuovo marks
-        ArrayList<ArrayList<Property>> marksMatrix = new ArrayList<>();
-        //siccome vi è un sono nodo iniziale inizializzo con un solo mark
-        marksMatrix.add(this.marks);
-        //vettore degli edges da attraversare simultaneamente ( prodotti da fork )
-        ArrayList<ADedge> edges = new ArrayList<>();
-        //primo edge per attraversare il grafo
-        edges = this.firstEdge();
+        /**
+         * matrice di edge, ogni riga rappresenta un possibile cammino percorribile
+         * e dato in input alla funzione getStateFromEdges restituisce lo stato che li rappresenta
+         */
+        ArrayList<ArrayList<ADedge>> flow = new ArrayList<>();
+        flow.add(this.firstEdge());
         
-        for (ADedge edge : edges)
+        boolean loop = true;
+        while (loop)
         {
-            if (edge.end().isType(ADnode.ForkNode))
-            {
-                ArrayList<ADedge> newEdges = new ArrayList<>();
-                newEdges.addAll(this.nextForkEdge(edge));
-                for (ADedge newEdge : newEdges)
-                {
-                    
-                }
-            }
+            loop = false;
+        }
+        
+        for (ArrayList<ADedge> edges : flow)
+        {
+            
         }
         
         return result;
+    }
+    
+    /**
+     * Attraverso questa funzione tutti gli stati di un Activity Graph eseguiti 
+     * in parallelo vengono tradotti in un stato per NuXMV e automaticamente,
+     * per gli stati considerati, si settano a 1 le attività attive.
+     * Modificando la funzione è possibile includere anche le risorse.
+     * @param edges collegamenti uscenti eseguiti in parallelo
+     * @return stato del grafo NuXMV
+     */
+    private State getStateFromEdges(ArrayList<ADedge> edges)
+    {
+        State state = new State();
+        state.values = this.getProperties();
+        for (ADedge edge : edges)
+        {
+            for (Property p : state.values)
+            {
+                if (p.name == edge.end().name)
+                {
+                    p.value = 1;
+                }
+            }
+        }
+        return state;
     }
     
     /**
