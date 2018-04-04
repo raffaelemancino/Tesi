@@ -16,7 +16,10 @@ import org.processmining.models.cnet2ad.ADnode;
  */
 public class SmvConverter
 {
-    private ADgraph adgraph;
+    /**
+     * Grafo da convertire.
+     */
+    private final ADgraph adgraph;
     
     public SmvConverter(ADgraph graph)
     {
@@ -122,50 +125,48 @@ public class SmvConverter
         return properties;
     }
     
+    /**
+     * Restituisce il la matrice dei successivi cammini contemporanei. Ogni or
+     *  produce un nuovo cammino possibile e quindi una nuova riga della matrice.
+     *  Se ci sono solo and deve restituire una matrice formata da una sola riga.
+     * @param oldedges vettore de
+     * @return 
+     */
     private ArrayList<ArrayList<ADedge>> nextEdge(ArrayList<ADedge> oldedges)
     {
         ArrayList<ArrayList<ADedge>> newFlow = new ArrayList<ArrayList<ADedge>>();
         //fork edges conterrà tutte le operazioni avvenute in contemporanea
         ArrayList<ADedge> forkEdges = new ArrayList<>();
-        if(oldedges.size()==1)
+        if(this.closingJoin(oldedges))
         {
-            for (ADedge edge : oldedges)
+            for(ADedge oldedge : oldedges)
             {
-                forkEdges.addAll(this.nextForkEdge(edge));
-            }
-        }else if(oldedges.size()>1)
-        {
-            for (int i=0; i<oldedges.size(); i++)
-            {
-                ADedge edge = oldedges.get(i);
-                if(edge.end().isType(ADnode.JoinNode))
+                if(!oldedge.end().isType(ADnode.BranchNode))
                 {
-                    forkEdges.add(edge);
-                    oldedges.remove(i);
+                    forkEdges.addAll(this.nextForkEdge(oldedge));
                 }
             }
-            for(ADedge edge : oldedges)
+        }else{
+            for(ADedge oldedge : oldedges)
             {
-                forkEdges.addAll(this.nextForkEdge(edge));
+                if(!oldedge.end().isType(ADnode.BranchNode) && !oldedge.end().isType(ADnode.JoinNode))
+                {
+                    forkEdges.addAll(this.nextForkEdge(oldedge));
+                }else if(oldedge.end().isType(ADnode.JoinNode))
+                {
+                    forkEdges.add(oldedge);
+                }
             }
         }
         
-        //creerà una nuova riga della matrice per ogni brach
-        boolean branch = false;
-        for (ADedge edge : oldedges)
-        {
-            if (edge.end().isType(ADnode.BranchNode))
-            {
-                
-            }
-        }
+        
         
         return newFlow;
     }
     
     /**
-     * Dato un edge restituisce gli edge del passo successivo (se sono presenti altre fork,
-     * restituisce anche gli edge successivi a queste)
+     * Dato un edge restituisce gli edge del passo successivo. In caso di fork o 
+     * branch, salta il successivo e va al secondo successivo.
      * @param beforeEdge edge precedente alla nodo di fork
      * @return lista dei nodi successivi a una fork
      */
@@ -270,6 +271,34 @@ public class SmvConverter
             }
         }
         return state;
+    }
+    
+    /**
+     * controlla se tutti gli edge passati in input hanno raggiunto il join di
+     * chiusura. Restituisce vero se sono tutti o nessuno join node.
+     * @param edges edge da testare
+     * @return boolean
+     */
+    private boolean closingJoin(ArrayList<ADedge> edges)
+    {
+        ADnode tester = edges.get(0).end();
+        for(int i=1; i<edges.size(); i++)
+        {
+            ADedge edge = edges.get(i);
+            if(tester.isType(ADnode.JoinNode))
+            {
+                if(!edge.end().isType(ADnode.JoinNode))
+                {
+                    return false;
+                }
+            }else{
+                if(edge.end().isType(ADnode.JoinNode))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
     /**
