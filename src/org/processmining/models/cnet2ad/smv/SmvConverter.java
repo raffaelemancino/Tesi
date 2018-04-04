@@ -135,6 +135,7 @@ public class SmvConverter
     private ArrayList<ArrayList<ADedge>> nextEdge(ArrayList<ADedge> oldedges)
     {
         ArrayList<ArrayList<ADedge>> newFlow = new ArrayList<ArrayList<ADedge>>();
+        
         //fork edges conterrà tutte le operazioni avvenute in contemporanea
         ArrayList<ADedge> forkEdges = new ArrayList<>();
         if(this.closingJoin(oldedges))
@@ -159,8 +160,56 @@ public class SmvConverter
             }
         }
         
+        //popolo una matrice di nodi uscenti dai branch contemporanei
+        ArrayList<ArrayList<ADedge>> branchOut = new ArrayList<>();
+        for(ADedge edge : oldedges)
+        {
+            if(edge.end().isType(ADnode.BranchNode))
+            {
+                branchOut.add(this.nextBranchEdge(edge));
+            }
+        }
         
+        //costruisco un vettore di coicidenze tra branch
+        ArrayList<ArrayList<ADedge>> coincidence = new ArrayList<>();
+        ArrayList<ArrayList<ADedge>> oldCoincidence = new ArrayList<>();
         
+        for(int i=0; i<branchOut.get(0).size(); i++)
+        {
+            for(int j=0; j<branchOut.get(1).size(); j++)
+            {
+                coincidence.add(new ArrayList<>());
+                coincidence.get(coincidence.size()-1).add(branchOut.get(0).get(i));
+                coincidence.get(coincidence.size()-1).add(branchOut.get(1).get(j));
+            }
+        }
+        
+        for(int r=2; r<branchOut.size(); r++)
+        {
+            oldCoincidence = coincidence;
+            coincidence = new ArrayList<>();
+            for(int c=0; c<branchOut.get(r).size(); c++)
+            {
+                for(int vr=0; vr<oldCoincidence.size(); vr++)
+                {
+                    coincidence.add(new ArrayList<>());
+                    coincidence.get(coincidence.size()-1).addAll(oldCoincidence.get(vr));
+                    coincidence.get(coincidence.size()-1).add(branchOut.get(r).get(c));
+                }
+            }
+        }
+        
+        //concatena ad ogni coincidenza branch un flusso contemporaneo se coincidence è vuoto inserisce solo il flusso contemporaneo
+        for(ArrayList<ADedge> c : coincidence)
+        {
+            newFlow.add(new ArrayList<>());;
+            newFlow.get(newFlow.size()-1).addAll(c);
+            newFlow.get(newFlow.size()-1).addAll(forkEdges);
+        }
+        if(coincidence.size()==0)
+        {
+            newFlow.add(forkEdges);
+        }
         return newFlow;
     }
     
@@ -177,7 +226,7 @@ public class SmvConverter
         {
             if (beforeEdge.end().id == edge.begin().id)
             {
-                if (edge.end().isType(ADnode.ForkNode))
+                /*if (edge.end().isType(ADnode.ForkNode))
                 {
                     list.addAll(this.nextForkEdge(edge));
                 }else if(edge.end().isType(ADnode.BranchNode)){
@@ -188,12 +237,26 @@ public class SmvConverter
                     }
                 }else{
                     list.add(edge);
+                }*/
+                
+                if (edge.end().isType(ADnode.ForkNode))
+                {
+                    list.addAll(this.nextForkEdge(edge));
+                }else if(edge.end().isType(ADnode.BranchNode) && edge.end().isType(ADnode.FinalNode)){
+                    //non lo aggiunge
+                }else{
+                    list.add(edge);
                 }
             }
         }
         return list;
     }
     
+    /**
+     * Restituisce il vettore dei nodi uscenti da un branch
+     * @param beforeEdge arco precedente
+     * @return ArrayList
+     */
     private ArrayList<ADedge> nextBranchEdge(ADedge beforeEdge)
     {
         ArrayList<ADedge> list = new ArrayList<>();
