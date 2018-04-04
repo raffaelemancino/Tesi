@@ -173,43 +173,45 @@ public class SmvConverter
         //costruisco un vettore di coicidenze tra branch
         ArrayList<ArrayList<ADedge>> coincidence = new ArrayList<>();
         ArrayList<ArrayList<ADedge>> oldCoincidence = new ArrayList<>();
-        
-        for(int i=0; i<branchOut.get(0).size(); i++)
+        if(branchOut.size()!=0)
         {
-            for(int j=0; j<branchOut.get(1).size(); j++)
+            for(int i=0; i<branchOut.get(0).size(); i++)
             {
-                coincidence.add(new ArrayList<>());
-                coincidence.get(coincidence.size()-1).add(branchOut.get(0).get(i));
-                coincidence.get(coincidence.size()-1).add(branchOut.get(1).get(j));
-            }
-        }
-        
-        for(int r=2; r<branchOut.size(); r++)
-        {
-            oldCoincidence = coincidence;
-            coincidence = new ArrayList<>();
-            for(int c=0; c<branchOut.get(r).size(); c++)
-            {
-                for(int vr=0; vr<oldCoincidence.size(); vr++)
+                for(int j=0; j<branchOut.get(1).size(); j++)
                 {
                     coincidence.add(new ArrayList<>());
-                    coincidence.get(coincidence.size()-1).addAll(oldCoincidence.get(vr));
-                    coincidence.get(coincidence.size()-1).add(branchOut.get(r).get(c));
+                    coincidence.get(coincidence.size()-1).add(branchOut.get(0).get(i));
+                    coincidence.get(coincidence.size()-1).add(branchOut.get(1).get(j));
                 }
             }
-        }
-        
-        //concatena ad ogni coincidenza branch un flusso contemporaneo se coincidence è vuoto inserisce solo il flusso contemporaneo
-        for(ArrayList<ADedge> c : coincidence)
-        {
-            newFlow.add(new ArrayList<>());;
-            newFlow.get(newFlow.size()-1).addAll(c);
-            newFlow.get(newFlow.size()-1).addAll(forkEdges);
-        }
-        if(coincidence.size()==0)
+
+            for(int r=2; r<branchOut.size(); r++)
+            {
+                oldCoincidence = coincidence;
+                coincidence = new ArrayList<>();
+                for(int c=0; c<branchOut.get(r).size(); c++)
+                {
+                    for(int vr=0; vr<oldCoincidence.size(); vr++)
+                    {
+                        coincidence.add(new ArrayList<>());
+                        coincidence.get(coincidence.size()-1).addAll(oldCoincidence.get(vr));
+                        coincidence.get(coincidence.size()-1).add(branchOut.get(r).get(c));
+                    }
+                }
+            }
+
+            //concatena ad ogni coincidenza branch un flusso contemporaneo se coincidence è vuoto inserisce solo il flusso contemporaneo
+            for(ArrayList<ADedge> c : coincidence)
+            {
+                newFlow.add(new ArrayList<>());;
+                newFlow.get(newFlow.size()-1).addAll(c);
+                newFlow.get(newFlow.size()-1).addAll(forkEdges);
+            }
+        }else if(coincidence.size()==0)
         {
             newFlow.add(forkEdges);
         }
+        
         return newFlow;
     }
     
@@ -294,18 +296,30 @@ public class SmvConverter
          * matrice di edge, ogni riga rappresenta un possibile cammino percorribile
          * e dato in input alla funzione getStateFromEdges restituisce lo stato che li rappresenta
          */
-        ArrayList<ArrayList<ADedge>> flow = new ArrayList<>();
-        flow.add(this.firstEdge());
+        ArrayList<ArrayList<ADedge>> flows = new ArrayList<>();
+        flows.add(this.firstEdge());
         
         boolean loop = true;
+        int i=0;
         while (loop)
         {
-            loop = false;
-        }
-        
-        for (ArrayList<ADedge> edges : flow)
-        {
+            for(ArrayList<ADedge> flow : flows)
+            {
+                State s = this.getStateFromEdges(flow);
+                result.add(s);
+                if(i>0)
+                {
+                    result.get(i).next.add(s);
+                }
+            }
             
+            ArrayList<ArrayList<ADedge>> newFlows = new ArrayList<>();
+            for(ArrayList<ADedge> f : flows)
+            {
+                newFlows.addAll(this.nextEdge(f));
+            }
+            i++;
+            loop = false;
         }
         
         return result;
