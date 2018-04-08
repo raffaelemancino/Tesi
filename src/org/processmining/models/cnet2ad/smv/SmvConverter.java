@@ -85,7 +85,8 @@ public class SmvConverter
                 smv.append(";\n");
             }
         }
-        smv.append("\t" + "esac;" + "\n");
+        smv.append("\t\t" + "TRUE : s0;" + "\n");
+        smv.append("\t\t" + "esac;" + "\n");
         
         //activities value
         for(i=0; i < marks.size(); i++)
@@ -162,18 +163,52 @@ public class SmvConverter
         
         //popolo una matrice di nodi uscenti dai branch contemporanei
         ArrayList<ArrayList<ADedge>> branchOut = new ArrayList<>();
-        for(ADedge edge : oldedges)
+        if(this.closingJoin(oldedges))
         {
-            if(edge.end().isType(ADnode.BranchNode))
+            for(ADedge oldedge : oldedges)
             {
-                branchOut.add(this.nextBranchEdge(edge));
+                if(oldedge.end().isType(ADnode.BranchNode))
+                {
+                    branchOut.add(this.nextBranchEdge(oldedge));
+                }else{
+                    for(ADedge edge : this.adgraph.edges())
+                    {
+                        if (oldedge.end().id == edge.begin().id )
+                        {
+                            if (edge.end().isType(ADnode.BranchNode))
+                            {
+                                branchOut.add(this.nextBranchEdge(edge));
+                            }
+                        }
+                    }
+                }
+            }
+        }else{
+            for(ADedge oldedge : oldedges)
+            {
+                if(oldedge.end().isType(ADnode.BranchNode))
+                {
+                    branchOut.add(this.nextBranchEdge(oldedge));
+                }else if(!oldedge.end().isType(ADnode.JoinNode)){
+                    for(ADedge edge : this.adgraph.edges())
+                    {
+                        if (oldedge.end().id == edge.begin().id )
+                        {
+                            if (edge.end().isType(ADnode.BranchNode))
+                            {
+                                branchOut.add(this.nextBranchEdge(edge));
+                            }
+                        }
+                    }
+                }
             }
         }
+        
         
         //costruisco un vettore di coicidenze tra branch
         ArrayList<ArrayList<ADedge>> coincidence = new ArrayList<>();
         ArrayList<ArrayList<ADedge>> oldCoincidence = new ArrayList<>();
-        if(branchOut.size()!=0)
+        if(branchOut.size() > 1)
         {
             for(int i=0; i<branchOut.get(0).size(); i++)
             {
@@ -203,11 +238,19 @@ public class SmvConverter
             //concatena ad ogni coincidenza branch un flusso contemporaneo se coincidence è vuoto inserisce solo il flusso contemporaneo
             for(ArrayList<ADedge> c : coincidence)
             {
-                newFlow.add(new ArrayList<>());;
+                newFlow.add(new ArrayList<>());
                 newFlow.get(newFlow.size()-1).addAll(c);
                 newFlow.get(newFlow.size()-1).addAll(forkEdges);
             }
-        }else if(coincidence.size()==0)
+        }else if(branchOut.size()==1)
+        {
+            for(ADedge c : branchOut.get(0))
+            {
+                newFlow.add(new ArrayList<>());
+                newFlow.get(newFlow.size()-1).add(c);
+                newFlow.get(newFlow.size() - 1).addAll(forkEdges);
+            }
+        }else if(branchOut.size()==0)
         {
             newFlow.add(forkEdges);
         }
@@ -228,23 +271,12 @@ public class SmvConverter
         {
             if (beforeEdge.end().id == edge.begin().id)
             {
-                /*if (edge.end().isType(ADnode.ForkNode))
-                {
-                    list.addAll(this.nextForkEdge(edge));
-                }else if(edge.end().isType(ADnode.BranchNode)){
-                    ArrayList<ADedge> temp = this.nextBranchEdge(edge);
-                    if(temp.size()==1)
-                    {
-                        list.addAll(temp);
-                    }
-                }else{
-                    list.add(edge);
-                }*/
-                
                 if (edge.end().isType(ADnode.ForkNode))
                 {
                     list.addAll(this.nextForkEdge(edge));
-                }else if(edge.end().isType(ADnode.BranchNode) && edge.end().isType(ADnode.FinalNode)){
+                }else if(edge.end().isType(ADnode.BranchNode)){
+                    
+                }else if(edge.end().isType(ADnode.FinalNode)){
                     //non lo aggiunge
                 }else{
                     list.add(edge);
@@ -297,32 +329,67 @@ public class SmvConverter
          * e dato in input alla funzione getStateFromEdges restituisce lo stato che li rappresenta
          */
         ArrayList<ArrayList<ADedge>> flows = new ArrayList<>();
+        ArrayList<State> parents = new ArrayList<>();
         flows.add(this.firstEdge());
+        for(ArrayList<ADedge> flow : flows)
+        {
+            State s = this.getStateFromEdges(flow);
+            result.add(s);
+            parents.add(s);
+        }
         
         boolean loop = true;
-        int i=0;
         while (loop)
         {
-            for(ArrayList<ADedge> flow : flows)
+            ArrayList<ArrayList<ADedge>> newFlows = new ArrayList<>();
+            ArrayList<State> newParents = new ArrayList<>();
+            for(int j=0; j<flows.size(); j++)
             {
-                State s = this.getStateFromEdges(flow);
-                result.add(s);
-                if(i>0)
+                ArrayList<ArrayList<ADedge>> next = this.nextEdge(flows.get(j));
+                
+                for(int k=0; k<next.size(); k++)
                 {
-                    result.get(i).next.add(s);
+                    State s = this.getStateFromEdges(next.get(k));
+                    State copy = this.stateExist(s, result);
+                    if(copy != null)
+                    {
+                        parents.get(j).next.add(copy);
+                    }else{
+                        parents.get(j).next.add(s);
+                        if(!next.get(0).isEmpty())
+                        {
+                            newFlows.add(next.get(k));
+                            newParents.add(s);
+                        }
+                        result.add(s);
+                    }
                 }
             }
+            parents = newParents;
+            flows = newFlows;
             
-            ArrayList<ArrayList<ADedge>> newFlows = new ArrayList<>();
-            for(ArrayList<ADedge> f : flows)
-            {
-                newFlows.addAll(this.nextEdge(f));
-            }
-            i++;
-            loop = false;
+            if(flows.size()==0)
+                loop=false;
+        }
+        
+        for(int j=0; j<result.size(); j++)
+        {
+            result.get(j).id=j;
         }
         
         return result;
+    }
+    
+    private State stateExist(State s, ArrayList<State> listS)
+    {
+        for(State state : listS)
+        {
+            if(state.equal(s))
+            {
+                return state;
+            }
+        }
+        return null;
     }
     
     /**
@@ -417,5 +484,77 @@ public class SmvConverter
         states.add(s3);
         
         return states;
+    }
+    
+    @Deprecated
+    private int countZeroState(ArrayList<State> list)
+    {
+        int count = 0;
+        for(State s : list)
+        {
+            if(s.isZeroState())
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    private ArrayList<State> compressGraph(ArrayList<State> list)
+    {
+        ArrayList<State> ret = new ArrayList<>();
+        for (State state : list)
+        {
+            if(!state.isZeroState())
+            {
+                for(int i=0; i<state.next.size(); i++)
+                {
+                    State s = state.next.get(i);
+                    if(s.isZeroState())
+                    {
+                        state.next.remove(i);
+                        state.next.addAll(this.getNextState(state));
+                    }
+                    System.out.println(i);
+                }
+            }
+            System.out.println(state.id);
+        }
+        return ret;
+    }
+    
+    private ArrayList<State> getNextState(State state)
+    {
+        ArrayList<State> states = new ArrayList<>();
+        for(State s : state.next)
+        {
+            if(s.isZeroState())
+            {
+                states.addAll(this.getNextState(s));
+            }else{
+                states.add(s);
+            }
+        }
+        
+        return states;
+    }
+    
+    /**
+     * Only for debug
+     * @param list
+     * @deprecated
+     */
+    @Deprecated
+    private void printEdges(ArrayList<ArrayList<ADedge>> list)
+    {
+        for(ArrayList<ADedge> a : list)
+        {
+            for(ADedge b : a)
+            {
+                System.out.println(b.end().name + " => " + b.end().getType());
+            }
+            System.out.println("----------------------------");
+        }
+        System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
     }
 }

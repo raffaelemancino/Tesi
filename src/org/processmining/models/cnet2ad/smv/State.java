@@ -14,7 +14,39 @@ import java.util.ArrayList;
 public class State
 {
     public int id;
-    ArrayList<State> next = new ArrayList<>();
-    ArrayList<Property> values = new ArrayList<>();
-
+    public ArrayList<State> next = new ArrayList<>();
+    public ArrayList<Property> values = new ArrayList<>();
+    
+    public boolean equal(State s)
+    {
+        boolean test = true;
+        for(int i=0; i<values.size(); i++)
+        {
+            if(values.get(i).value!=s.values.get(i).value)
+            {
+                test = false;
+            }
+        }
+        
+        //se sono tutti 0 deve comunque dare falso
+        
+        
+        if(!this.isZeroState())
+            return test;
+        else
+            return false;
+    }
+    
+    public boolean isZeroState()
+    {
+        boolean test = true;
+        for(int i=1; i<values.size(); i++)
+        {
+            if(values.get(i).value!=0)
+            {
+                test=false;
+            }
+        }
+        return test;
+    }
 }

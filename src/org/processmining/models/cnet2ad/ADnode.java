@@ -13,6 +13,11 @@ public class ADnode {
     public String id;
     private String type;
 
+    public String getType()
+    {
+        return type;
+    }
+
     private static int idCounter = 0;
 
     public ADnode(String name){

@@ -134,6 +134,7 @@ public class Main {
         }
         catch(Exception e){
             System.out.println("Exception " + e.toString());
+            System.err.println("com.cnet2ad.web.Main.main()");
             System.out.println("Cnet2ADRESULT=ERROR");
         }
         
