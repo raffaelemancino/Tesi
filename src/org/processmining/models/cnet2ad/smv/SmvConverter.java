@@ -371,7 +371,7 @@ public class SmvConverter
             if(flows.size()==0)
                 loop=false;
         }
-        
+        result = this.compressGraph(result);
         for(int j=0; j<result.size(); j++)
         {
             result.get(j).id=j;
@@ -503,40 +503,23 @@ public class SmvConverter
     private ArrayList<State> compressGraph(ArrayList<State> list)
     {
         ArrayList<State> ret = new ArrayList<>();
-        for (State state : list)
+        for (int i=0; i<list.size(); i++)
         {
+            State state = list.get(i);
             if(!state.isZeroState())
             {
-                for(int i=0; i<state.next.size(); i++)
+                for(int j=state.next.size()-1; j>=0; j--)
                 {
-                    State s = state.next.get(i);
-                    if(s.isZeroState())
+                    if(state.next.get(j).isZeroState())
                     {
-                        state.next.remove(i);
-                        state.next.addAll(this.getNextState(state));
+                        state.next.addAll(state.next.get(j).next);
+                        state.next.remove(j);
                     }
-                    System.out.println(i);
                 }
+                ret.add(state);
             }
-            System.out.println(state.id);
         }
         return ret;
-    }
-    
-    private ArrayList<State> getNextState(State state)
-    {
-        ArrayList<State> states = new ArrayList<>();
-        for(State s : state.next)
-        {
-            if(s.isZeroState())
-            {
-                states.addAll(this.getNextState(s));
-            }else{
-                states.add(s);
-            }
-        }
-        
-        return states;
     }
     
     /**
