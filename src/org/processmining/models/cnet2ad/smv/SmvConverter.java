@@ -371,11 +371,20 @@ public class SmvConverter
             if(flows.size()==0)
                 loop=false;
         }
-        result = this.compressGraph(result);
+        
+        
         for(int j=0; j<result.size(); j++)
         {
             result.get(j).id=j;
         }
+        
+        result = this.compressGraph(result);
+        
+        for(int j=0; j<result.size(); j++)
+        {
+            result.get(j).id=j;
+        }
+        result = this.cleanNext(result);
         
         return result;
     }
@@ -539,5 +548,60 @@ public class SmvConverter
             System.out.println("----------------------------");
         }
         System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
+    }
+    
+    /**
+     * Elimina eventuali ripetizioni nel vettore next. Da eseguire dopo 
+     * l'attribuzione degli ID!!.
+     * @param list lista degli stati da alleggerire
+     * @return stati alleggeriti
+     */
+    private ArrayList<State> cleanNext(ArrayList<State> list)
+    {
+        for(int i=0; i<list.size(); i++)
+        {
+            ArrayList<State> newNext = new ArrayList<State>();
+            State state = list.get(i);
+            for(int j=0; j<state.next.size(); j++)
+            {
+                State stateNext = state.next.get(j);
+                if(!this.alreadyExist(stateNext, newNext))
+                {
+                    newNext.add(stateNext);
+                }
+            }
+            state.next = newNext;
+        }
+        return list;
+    }
+    
+    /**
+     * Controlla se lo stato è gia presente nel vettore
+     * @return boolean
+     */
+    private boolean alreadyExist(State state, ArrayList<State> list)
+    {
+        for(State s : list)
+        {
+            if(s.id == state.id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private String statePropertyToString(State s)
+    {
+        String string = new String("");
+        for(Property p : s.values)
+        {
+            if(p.value==1)
+            {
+                string += p.name;
+                string += " -> ";
+            }
+        }
+        return string;
     }
 }
