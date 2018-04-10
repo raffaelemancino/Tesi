@@ -39,14 +39,13 @@ public class State
     
     public boolean isZeroState()
     {
-        boolean test = true;
-        for(int i=1; i<values.size(); i++)
+        for(int i=0; i<values.size(); i++)
         {
-            if(values.get(i).value!=0)
+            if(values.get(i).value==1)
             {
-                test=false;
+                return false;
             }
         }
-        return test;
+        return true;
     }
 }

@@ -372,7 +372,7 @@ public class SmvConverter
                 loop=false;
         }
         
-        
+        //attribuisce id
         for(int j=0; j<result.size(); j++)
         {
             result.get(j).id=j;
@@ -380,11 +380,13 @@ public class SmvConverter
         
         result = this.compressGraph(result);
         
+        result = this.cleanNext(result);
+        
+        //attribuisce id per grafo compresso
         for(int j=0; j<result.size(); j++)
         {
             result.get(j).id=j;
         }
-        result = this.cleanNext(result);
         
         return result;
     }
@@ -529,6 +531,25 @@ public class SmvConverter
             }
         }
         return ret;
+    }
+    
+    /**
+     * restituisce la posizione dello stato nel vettore, se non è presente restituisce -1
+     * @param id id cercato
+     * @param list lista di stati
+     * @return int posizione
+     */
+    private int getState_i(int id, ArrayList<State> list)
+    {
+        for(int i=0; i<list.size(); i++)
+        {
+            State s = list.get(i);
+            if(s.id==id)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
     
     /**
